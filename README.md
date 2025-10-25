@@ -17,8 +17,10 @@ What we'll cover in this workshop:
 * Styling: Bootswatch themes, custom colours/fonts/CSS, syntax highlighting, dark mode
 * Customizing your site contents: reference page, navbar, footer
 * Adding JavaScript
-* ~~How GitHub Pages + GitHub Actions actually work~~ 
-* ~~Changing `pkgdown` image defaults~~
+
+BONUS topics (if there's time):
+
 * Quarto vignettes
-* ~~Adding badges (including dynamic test coverage badges)~~
-* ~~Adding a custom domain to your GitHub Pages site~~
+* How GitHub Actions + GitHub Pages work
+* Further customization: sidebar content
+* Adding Quarto pages inside your `pkgdown` site

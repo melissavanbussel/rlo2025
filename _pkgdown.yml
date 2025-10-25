@@ -3,7 +3,7 @@ template:
   bootstrap: 5
   bslib:
     bootswatch: zephyr
-    primary: "#88398a"
+    primary: "#6E6295"
     base_font: {google: "Outfit"}
     code_font: {google: "Fira Code"}
   light-switch: true
