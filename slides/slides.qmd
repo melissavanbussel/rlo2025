@@ -1,7 +1,7 @@
 ---
-title: "R package development with GitHub Pages\n and `pkgdown`"
+title: "R package development with GitHub Pages<br> and `pkgdown`"
 subtitle: "R-Ladies Ottawa, 2025"
-author: "Melissa Van Bussel"
+author: "Taught by *[Melissa Van Bussel](https://www.melissavanbussel.com)*"
 execute:
   echo: true
   eval: false
@@ -27,9 +27,11 @@ format:
               <link rel="icon" type="image/png" href="logo.png">
 ---
 
-# Welcome and thank you to our sponsors!
+# {background-image="thank_you_slide.png"}
 
-Thank you Bayview Yards for sponsoring today's event!
+::: footer
+
+:::
 
 # Housekeeping 🧹
 
@@ -83,9 +85,9 @@ Thank you Bayview Yards for sponsoring today's event!
 
 ## BONUS topics (if there's time)
 
-* How GitHub Actions + GitHub Pages work
 * Quarto vignettes
-* Further customization: logo in navbar, sidebar content
+* How GitHub Actions + GitHub Pages work
+* Further customization: sidebar content
 * Adding Quarto pages inside your `pkgdown` site
 
 *the end*
@@ -453,7 +455,7 @@ template:
   bootstrap: 5
   bslib:
     bootswatch: zephyr
-    primary: "#88398a"
+    primary: "#6E6295"
 ```
 
 ## Changing the font using `bslib`
@@ -467,7 +469,7 @@ template:
   bootstrap: 5
   bslib:
     bootswatch: zephyr
-    primary: "#88398a"
+    primary: "#6E6295"
     base_font: {google: "Outfit"}
     code_font: {google: "Fira Code"}
 ```
@@ -499,7 +501,7 @@ Let's change the colour of the search bar!
 
 ```css
 .form-control {
-  background-color: #f4e6f5;
+  background-color: #fbfaff;
 }
 ```
 
@@ -514,7 +516,7 @@ template:
   bootstrap: 5
   bslib:
     bootswatch: zephyr
-    primary: "#88398a"
+    primary: "#6E6295"
     base_font: {google: "Outfit"}
     code_font: {google: "Fira Code"}
   light-switch: true
@@ -526,11 +528,11 @@ In our `extra.scss` file:
 
 ```css
 [data-bs-theme="light"] .form-control {
-  background-color: #f4e6f5;
+  background-color: #fbfaff;
 }
 
 [data-bs-theme="dark"] .form-control {
-  background-color: #423642;
+  background-color: #362d53;
 }
 ```
 
@@ -545,7 +547,7 @@ template:
   bootstrap: 5
   bslib:
     bootswatch: zephyr
-    primary: "#88398a"
+    primary: "#6E6295"
     base_font: {google: "Outfit"}
     code_font: {google: "Fira Code"}
   light-switch: true
@@ -734,7 +736,71 @@ template:
 
 # BREAK
 
-# Part 3: Mastering GitHub Pages {background-image="part3.png"}
+# Part 3: BONUS topics {background-image="part3.png"}
+
+# Quarto vignettes
+
+## Adding a Quarto vignette
+
+```{r}
+use_vignette(name = "tutorial.qmd", title = "Tutorial Title")
+```
+
+* `Build > Install > Clean and install`
+* Ensure Quarto is installed (including the `quarto` package in R)
+* Contents can be pasted from [here](https://github.com/melissavanbussel/rlo2025/blob/main/vignettes/my_vignette.qmd)
+
+## Troubleshooting Quarto vignettes
+
+* If you use any packages that are not in your `DESCRIPTION` file, you must add it as a dependency in `.github/workflows/pkgdown.yaml`.
+
+```{r}
+#| code-line-numbers: "3"
+     - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::pkgdown, local::., reticulate
+          needs: website
+```
+
+## Troubleshooting Quarto vignettes
+
+:::{.callout-tip}
+
+## Tip
+
+If there is an error in your Quarto file (i.e., it does not render), the error message will only say `system command 'quarto' not found`. Quarto is probably installed, and you probably have a syntax error in your Quarto vignette.
+
+:::
+
+## Changing your navbar structure
+
+You can type `Alt+0160` to add a blank character (`&nbsp;` will not work).
+
+```yaml
+navbar:
+  structure:
+    left: [vignettes, rd_files]
+    right: [search, github, my_linkedin, js_alert, lightswitch]
+  components:
+    vignettes:
+      text: " Vignettes"
+      icon: fa-book
+      menu:
+        - text: Examples
+        - text: "  Tutorial Title"
+          href: articles/my_vignette.html
+    rd_files:
+      text: " Function Documentation"
+      icon: fa-file
+      menu:
+        - text: All functions
+          href: reference/index.html
+        - text: "  Print things"
+        - text: "    Print Hello World"
+          href: reference/print_hello_world.html
+        - text: "    Print Hello R-Ladies"
+          href: reference/print_hello_rladies.html
+```
 
 # How GitHub Actions + GitHub Pages work
 
@@ -838,117 +904,7 @@ We're going to change the `link.svg` image
         run: cp docs/custom_link.svg docs/link.svg
 ```
 
-## Vote: Which topic do you want to cover?
-
-* A: Quarto vignettes
-* B: Logo image in the navbar
-* C: Adding a dynamic test coverage badge
-* D: Custom domain for your GitHub Pages
-
-# Quarto vignettes
-
-## Adding a Quarto vignette
-
-```{r}
-use_vignette(name = "tutorial.qmd", title = "Tutorial Title")
-```
-
-* `Build > Install > Clean and install`
-* Ensure Quarto is installed (including the `quarto` package in R)
-* Contents can be pasted from [here](https://github.com/melissavanbussel/rlo2025/blob/main/vignettes/my_vignette.qmd)
-
-## Troubleshooting Quarto vignettes
-
-* If you use any packages that are not in your `DESCRIPTION` file, you must add it as a dependency in `.github/workflows/pkgdown.yaml`.
-
-```{r}
-#| code-line-numbers: "3"
-     - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: any::pkgdown, local::., reticulate
-          needs: website
-```
-
-## Troubleshooting Quarto vignettes
-
-:::{.callout-tip}
-
-## Tip
-
-If there is an error in your Quarto file (i.e., it does not render), the error message will only say `system command 'quarto' not found`. Quarto is probably installed, and you probably have a syntax error in your Quarto vignette.
-
-:::
-
-## Changing your navbar structure
-
-You can type `Alt+0160` to add a blank character (`&nbsp;` will not work).
-
-```yaml
-navbar:
-  structure:
-    left: [vignettes, rd_files]
-    right: [search, github, my_linkedin, js_alert, lightswitch]
-  components:
-    vignettes:
-      text: " Vignettes"
-      icon: fa-book
-      menu:
-        - text: Examples
-        - text: "  Tutorial Title"
-          href: articles/my_vignette.html
-    rd_files:
-      text: " Function Documentation"
-      icon: fa-file
-      menu:
-        - text: All functions
-          href: reference/index.html
-        - text: "  Print things"
-        - text: "    Print Hello World"
-          href: reference/print_hello_world.html
-        - text: "    Print Hello R-Ladies"
-          href: reference/print_hello_rladies.html
-```
-
 # Further customization
-
-## Adding a logo in your navbar
-
-:::: {.columns}
-
-::: {.column width="50%"}
-
-In the `pkgdown/extra.js` file (replace with your package name, URL, and folder depth):
-
-```js
-document.addEventListener("DOMContentLoaded", function () {
-  const brand = document.querySelector(".navbar-brand");
-  if (!brand) return;
-
-  const isFileProtocol = window.location.protocol === "file:";
-  const imgSrc = isFileProtocol ? "../".repeat(7) + "logo.png" : "logo.png";
-
-  brand.innerHTML = `
-    <img src="${imgSrc}" height="30" style="vertical-align: middle; margin-right: 10px;">
-    <span style="vertical-align: middle;">rlo2025</span>
-  `;
-});
-```
-
-:::
-
-::: {.column width="50%"}
-
-In the `pkgdown/extra.scss` file (to add a hover effect):
-
-```css
-.navbar-brand:hover {
-  color: var(--bs-secondary-color);
-}
-```
-
-:::
-
-::::
 
 ## Customizing the sidebar
 
@@ -1058,10 +1014,6 @@ home:
           ![](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fmelissavanbussel.github.io%2Frlo2025%2Fcoverage.json&query=%24.coverage&label=test%20coverage)<br>
 ```
 
-# BREAK
-
-# BONUS: Extra fancy stuff (if there's time)
-
 ## Including Quarto files inside of your `pkgdown` site
 
 * The slides for this workshop are actually rendered as part of my package's workflow! 
@@ -1081,9 +1033,7 @@ home:
 
 ## Feedback form
 
-Please use [this form](https://forms.gle/zGVCKTcnponoyqDh7) to provide anonymous feedback about today's workshop. 
-
-I'll likely be teaching this again in other contexts, so any feedback you have is greatly appreciated and will be used to improve future iterations 😊.
+Please use [this form](https://rladies-ottawa.github.io/feedback.html) to provide anonymous feedback about today's workshop. 
 
 ## Photos from today's event
 
