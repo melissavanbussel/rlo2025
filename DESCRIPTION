@@ -1,0 +1,18 @@
+Package: rlo2025
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.9
+Authors@R: 
+    person("Melissa", "Van Bussel", , "melissalisevb@gmail.com", role = c("aut", "cre"))
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+URL: https://github.com/melissavanbussel/rlo2025, https://melissavanbussel.github.io/rlo2025/
+BugReports: https://github.com/melissavanbussel/rlo2025/issues
+Suggests: 
+    knitr,
+    quarto,
+    testthat (>= 3.0.0)
+VignetteBuilder: quarto
+Config/testthat/edition: 3

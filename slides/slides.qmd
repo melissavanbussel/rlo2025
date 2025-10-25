@@ -1,0 +1,1112 @@
+---
+title: "R package development with GitHub Pages and `pkgdown`"
+subtitle: "R-Ladies Ottawa, 2025"
+author: "Melissa Van Bussel"
+execute:
+  echo: true
+  eval: false
+  message: false
+  warning: false
+format:
+  revealjs:
+    theme: custom.scss
+    highlight-style: zenburn
+    incremental: false
+    keyboard: true
+    touch: true
+    code-overflow: scroll
+    code-line-numbers: true
+    code-copy: true
+    menu: false
+    lang: en
+    footer: "[https://melissavanbussel.github.io/rlo2025](https://melissavanbussel.github.io/rlo2025/index.html)"
+    slide-number: c/t
+    include-after-body: clean_title_page.html
+    include-in-header:
+          - text: |
+              <link rel="icon" type="image/png" href="logo.png">
+---
+
+# Welcome and thank you to our sponsors!
+
+Thank you Bayview Yards for sponsoring today's event!
+
+# Housekeeping 🧹
+
+## Where to access today's materials
+
+::: {.smaller}
+
+* The link in the footer ([https://melissavanbussel.github.io/rlo2025/](https://melissavanbussel.github.io/rlo2025/index.html)) contains the `pkgdown` site we will be working towards building together
+* You can access the slides at [https://melissavanbussel.github.io/rlo2025/slides.html](https://melissavanbussel.github.io/rlo2025/slides.html), which are also embedded on the `pkgdown` site
+* You can access the GitHub repo by clicking the GitHub icon in the navbar, or by going to [github.com/melissavanbussel/rlo2025](https://www.github.com/melissavanbussel/rlo2025)
+
+:::
+
+## How to get the most out of today's session
+
+* **Please participate!** This is a 2-hour workshop, which is a long time to stay focused. The more you participate, the more fun it will be for everyone. ☺️
+* **Ask questions**❓if you have them
+* This will help me figure readjust pacing and topics in real-time.
+
+## By the end of this workshop, you will have...
+
+* 🌎 Your package available on GitHub for others to install
+* 📄 A pkgdown website for your package, deployed via GitHub Pages
+* 🎨 An understanding of how to customize some components of `pkgdown` websites
+
+## The final product we will create
+
+<iframe src="https://melissavanbussel.github.io/rlo2025/index.html" width="1000" height="450"></iframe>
+
+## Background knowledge
+
+* Participants should have a GitHub account, but don’t need prior experience with `pkgdown` or GitHub Pages.
+
+# Schedule for today
+
+## Part 1: Getting started
+
+* Setup steps (installations + configurations)
+* Basic package creation
+* Getting things onto GitHub Pages
+
+*break*
+
+## Part 2: Making your site *yours*
+
+* Styling
+* Customizing content (navbar, footer, `reference` page)
+* Adding JavaScript
+
+*break*
+
+## BONUS topics (if there's time)
+
+* How GitHub Actions + GitHub Pages work
+* Quarto vignettes
+* Further customization: logo in navbar, sidebar content
+* Adding Quarto pages inside your `pkgdown` site
+
+*the end*
+
+# Part 1: Getting started {background-image="part1.png"}
+
+# Pre-workshop setup steps
+
+## Software installations
+
+Please ensure you have all of the following software installed (and updated to the most recent versions):
+
+* [R v4.5.0](https://cran.rstudio.com/)
+* [Rtools v4.5](https://cran.r-project.org/bin/windows/Rtools/)
+* [RStudio v2025.05.0+496](https://posit.co/download/rstudio-desktop/)
+* [Git v2.49.0](https://git-scm.com/downloads)
+
+## Git and GitHub setup
+
+* We will be using GitHub (and GitHub Pages) for this workshop. Please ensure you have a GitHub account that you’re able to log into and access during the workshop.
+* In RStudio, you can run the `git_sitrep()` function from the `usethis` package to verify your configuration.
+
+## What you should see from running `git_sitrep()`
+
+* You should see your name and email under the "Git global (user)" section. If not:
+
+```{r}
+usethis::use_git_config(
+ user.name = "Melissa Van Bussel",
+ user.email = "melissalisevb@gmail.com"
+)
+```
+
+## What you should see from running `git_sitrep()`
+
+* You should see `Vaccinated: TRUE`. If not: 
+
+```{r}
+usethis::git_vaccinate()
+```
+
+## What you should see from running `git_sitrep()`
+
+* You should see the username and email associated with your GitHub account, and you should see the word "discovered" beside the line that says "Personal access token". If not:
+
+```{r}
+usethis::create_github_token()
+gitcreds::gitcreds_set()
+```
+
+# Basic package creation
+
+## Creating a new project
+
+* Make sure the `devtools` package is installed
+* `File > New project > New Directory > R package using devtools`
+* Name of the package: `rlo2025`
+
+```{r}
+library(devtools)
+library(pkgdown)
+```
+
+## The `DESCRIPTION` file
+
+Run 
+
+```{r}
+use_mit_license()
+```
+
+then update the `Authors@R` field
+
+```{r}
+Authors@R: 
+    person("Melissa", "Van Bussel", , "melissalisevb@gmail.com", role = c("aut", "cre"))
+```
+
+and change the version number to something a little less long.
+
+```{r}
+Version: 0.0.9
+```
+
+## Creating a `README.md` file
+
+<br>
+
+```{r}
+use_readme_md()
+```
+
+## Making our first R function
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="40%"}
+
+```{r}
+use_r("print_hello_world")
+```
+
+:::
+
+::: {.column width="5%"}
+
+:::
+
+::: {.column width="55%"}
+
+```{r}
+#' Print hello world
+#'
+#' This function just prints hello world.
+#'
+#' @param x This argument does nothing.
+#'  If it did do something, it might require more words to explain.
+#'
+#' @return Prints `"Hello, world!"` to the console
+#'
+#' @examples
+#' print_hello_world(x = 1)
+#'
+#' @export
+print_hello_world <- function(x) {
+  print("Hello, world!")
+}
+```
+
+:::
+
+::::
+
+## Let's add a second function
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="40%"}
+
+```{r}
+use_r("print_hello_rladies")
+```
+
+:::
+
+::: {.column width="5%"}
+
+:::
+
+::: {.column width="55%"}
+
+```{r}
+#' Print hello R-Ladies
+#'
+#' This function just prints hello R-Ladies.
+#'
+#' @param x This argument does nothing.
+#'  If it did do something, it might require more words to explain.
+#'
+#' @return Prints `"Hello, R-Ladies"` to the console
+#'
+#' @examples
+#' print_hello_rladies(x = 1)
+#'
+#' @export
+print_hello_rladies <- function(x) {
+  print("Hello, R-Ladies!")
+}
+```
+
+:::
+
+::::
+
+## We should probably add some tests, too
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="40%"}
+
+```{r}
+# install.packages("testthat")
+library(testthat)
+use_test("print_hello_world")
+```
+
+:::
+
+::: {.column width="5%"}
+
+:::
+
+::: {.column width="55%"}
+
+```{r}
+test_that("print_hello_world prints hello world", {
+  expect_equal(
+    print_hello_world(x = "test"),
+    "Hello, world!"
+  )
+})
+```
+
+:::
+
+::::
+
+## Repeat for the `print_hello_rladies` function
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="40%"}
+
+```{r}
+# install.packages("testthat")
+library(testthat)
+use_test("print_hello_rladies")
+```
+
+:::
+
+::: {.column width="5%"}
+
+:::
+
+::: {.column width="55%"}
+
+```{r}
+test_that("print_hello_rladies prints hello rladies", {
+  expect_equal(
+    print_hello_rladies(x = "test"),
+    "Hello, R-Ladies!"
+  )
+})
+```
+
+:::
+
+::::
+
+# Getting things up onto GitHub Pages
+
+## Always run `check()` before pushing to GitHub
+
+We should see no errors, warnings, or notes!
+
+```{r}
+check()
+```
+
+## Initialize the git repository
+
+This will create the `.git` folder, and populate the `.gitignore` file.
+
+```{r}
+use_git()
+```
+
+## Creating the repository on GitHub
+
+The `usethis` package makes this step very simple for us! 
+
+```{r}
+use_github()
+```
+
+## Publishing the `pkgdown` site using GitHub Pages
+
+Again, the `usethis` package makes this very easy to do! 
+
+```{r}
+use_pkgdown_github_pages()
+```
+
+## Making changes from here
+
+* Whenever we push to the `main` branch, our website will be automatically updated for us!
+* **Remember:** always `pull` before you `push`
+
+To preview changes locally:
+
+```{r}
+build_site()
+```
+
+# BREAK
+
+# Part 2: Making your site *yours* {background-image="part2.png"}
+
+# Let's make things a little prettier
+
+## Creating a package logo
+
+:::: {.columns}
+
+::: {.column width="25%"}
+
+![](logo.png)
+
+:::
+
+::: {.column width="75%"}
+
+* If you don't already have a logo, the [hexmake](https://connect.thinkr.fr/hexmake/) Shiny app or the [hexSticker](https://github.com/GuangchuangYu/hexSticker) package are good choices
+* For today, you can use the image on the left, if you want! 
+
+:::
+
+::::
+
+## Adding the logo to your package
+
+You can run the `use_logo` function, which will automatically place the file in the right location within your package.
+
+```{r}
+use_logo("your/path/here.png")
+```
+
+## Creating favicons
+
+Without loading the `pkgdown` package, run
+
+```{r}
+pkgdown::build_favicons()
+```
+
+## Adding a bootswatch theme
+
+In the `_pkgdown.yaml` file, add a [bootswatch theme](https://bootswatch.com/):
+
+```{r}
+#| code-line-numbers: "5"
+url: https://melissavanbussel.github.io/rlo2025/
+template:
+  bootstrap: 5
+  bslib:
+    bootswatch: zephyr
+```
+
+:::{.callout-tip}
+
+## Tip
+
+There are a couple of bootswatch themes that are so new, they haven't been implemented in Quarto. Most of them should work, though!
+
+:::
+
+## Customizing appearance using `bslib` variables
+
+* Consult [this page](https://rstudio.github.io/bslib/articles/bs5-variables/index.html) to see a full list of options that you can change
+* To change the "primary colour" of your theme, for example:
+
+```{r}
+#| code-line-numbers: "6"
+url: https://melissavanbussel.github.io/rlo2025/
+template:
+  bootstrap: 5
+  bslib:
+    bootswatch: zephyr
+    primary: "#88398a"
+```
+
+## Changing the font using `bslib`
+
+* There are a few ways you can change the fonts, but using [Google fonts]() with `bslib` is the easiest!
+
+```{r}
+#| code-line-numbers: "7,8"
+url: https://melissavanbussel.github.io/rlo2025/
+template:
+  bootstrap: 5
+  bslib:
+    bootswatch: zephyr
+    primary: "#88398a"
+    base_font: {google: "Outfit"}
+    code_font: {google: "Fira Code"}
+```
+
+## Adding a custom.scss file
+
+* If you want to customize things further, create a file called `extra.scss` in the `pkgdown` folder
+* It will automatically be copied to the correct location by GitHub Actions
+
+```
+└── 📁 rlo2025/
+    └── 📁 pkgdown/
+        └── 📄 extra.scss
+```        
+
+Minimal content for `extra.scss:`
+
+```{r}
+/*-- scss:defaults --*/
+/*-- scss:rules --*/
+```
+
+## Right clicking and inspecting
+
+Let's change the colour of the search bar! 
+
+* In Google Chrome: `Right click > Inspect`
+* The class is called `.form-control`
+
+```css
+.form-control {
+  background-color: #f4e6f5;
+}
+```
+
+## Adding a lightswitch
+
+* We can enable a **dark mode** by setting `light-switch` to `true` in our `_pkgdown.yml` file:
+
+```{r}
+#| code-line-numbers: "9"
+url: https://melissavanbussel.github.io/rlo2025/
+template:
+  bootstrap: 5
+  bslib:
+    bootswatch: zephyr
+    primary: "#88398a"
+    base_font: {google: "Outfit"}
+    code_font: {google: "Fira Code"}
+  light-switch: true
+```
+
+## ...but what if we want different styles for light mode and dark mode?
+
+In our `extra.scss` file:
+
+```css
+[data-bs-theme="light"] .form-control {
+  background-color: #f4e6f5;
+}
+
+[data-bs-theme="dark"] .form-control {
+  background-color: #423642;
+}
+```
+
+## Syntax highlighting theme
+
+We can set a syntax highlighting theme for **light mode** and **dark mode**.
+
+```{r}
+#| code-line-numbers: "10,11"
+url: https://melissavanbussel.github.io/rlo2025/
+template:
+  bootstrap: 5
+  bslib:
+    bootswatch: zephyr
+    primary: "#88398a"
+    base_font: {google: "Outfit"}
+    code_font: {google: "Fira Code"}
+  light-switch: true
+  theme: atom-one-light
+  theme-dark: atom-one-dark
+```
+
+# Customizing our content
+
+## The default "reference" page
+
+* The "Reference" page is the page that lists all of the functions (and datasets) that are part of your package
+* By default, it puts the functions in **alphabetical order**
+* We can change that, though! Take a look at the [`pkgdown` documentation](https://pkgdown.r-lib.org/reference/index.html) for an example.
+
+## Reordering the contents of the reference page
+
+In the `_pkgdown.yml` file:
+
+* Create sections using `title`
+* Create descriptions using `desc`
+* List the pages using `contents`
+
+```yaml
+reference:
+  - title: Functions that print things
+    desc: These functions will all print things to your console.
+    contents:
+      - print_hello_world
+      - print_hello_rladies
+```
+
+## Shortcut: "Topic matching"
+
+You can use ["topic matching"](https://pkgdown.r-lib.org/reference/build_reference.html#topic-matching) as a shortcut:
+
+```{r}
+#| code-line-numbers: "5"
+reference:
+  - title: Functions that print things
+    desc: These functions will all print things to your console.
+    contents:
+      - starts_with("print_")
+```
+
+## Getting fancier with the reference page
+
+You can also use emojis, and create subsections!
+
+```yaml
+reference:
+  - title: ":pencil: Functions that print things"
+    desc: These functions will all print things to your console.
+  - subtitle: ":one: First subsection"
+    contents:
+      - print_hello_world
+  - subtitle: ":two: Second subsection"
+    contents:
+      - print_hello_rladies
+```
+
+## Customizing navbar contents
+
+* There are some built-in options for the navbar, such as `search`, `github` and `lightswitch`
+
+```yaml
+navbar:
+  structure:
+    right: [search, github, lightswitch]
+```
+
+## Components 
+
+* You can create custom buttons in the navbar using **components**
+* Use [fontawesome icons](https://fontawesome.com/search?ic=free) to customize the button appearance
+
+```{r}
+#| code-line-numbers: "3-8"
+navbar:
+  structure:
+    right: [search, github, my_linkedin, lightswitch]
+  components:
+    my_linkedin:
+      icon: fa-linkedin
+      href: https://www.linkedin.com/in/melissavanbussel/
+      aria-label: LinkedIn
+```
+
+## Customizing footer contents
+
+* The footer works **very** similarly to the navbar
+* It's markdown, so you can include almost anything you want!
+
+```yaml
+footer:
+  structure:
+    left: developed_by
+    right: built_with_pkgdown
+  components:
+    developed_by: "Developed by [Melissa Van Bussel](https://melissavanbussel.com/) :computer: for the [R-Ladies Ottawa 2025 `pkgdown` workshop](https://www.meetup.com/rladies-ottawa/events/311256371/)."
+    built_with_pkgdown: "This site was built using [pkgdown](https://pkgdown.r-lib.org/)!&nbsp;&nbsp;<img src='https://pkgdown.r-lib.org/logo.png' alt='pkgdown logo' width='25'>"
+```
+
+## Adding JavaScript
+
+* Earlier, we saw the `extra.scss` file
+* `pkgdown` also automatically recognizes the `pkgdown/extra.js` file
+
+```
+└── 📁 rlo2025/
+    └── 📁 pkgdown/
+        └── 📄 extra.scss
+        └── 📄 extra.js
+```   
+
+## Let's see it in action
+
+* We'll add an additional component to our navbar called `#js_alert#` -- a pop-up message will appear when button is clicked
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+```{r}
+#| code-line-numbers: "9-12"
+navbar:
+  structure:
+    right: [search, github, my_linkedin, lightswitch]
+  components:
+    my_linkedin:
+      icon: fa-linkedin
+      href: https://www.linkedin.com/in/melissavanbussel/
+      aria-label: LinkedIn
+    js_alert:
+      icon: fa-code
+      href: "#js_alert#"
+      aria-label: JavaScript
+```
+
+:::
+
+::: {.column width="50%"}
+
+```js
+document.addEventListener("DOMContentLoaded", function() {
+  let javascriptAlert = document.querySelectorAll(".nav-link[href*='#js_alert#']");
+  javascriptAlert.forEach(function (jsAlert) {
+    jsAlert.addEventListener("click", function(event) {
+      event.preventDefault();
+      alert("JavaScript is working!");
+    });
+  });
+});
+```
+
+:::
+
+::::
+
+## Can you add more files?
+
+Yes! You can insert [additional HTML etc.](https://pkgdown.r-lib.org/articles/customise.html#additional-html-and-files)
+
+For example, we can add additional javascript using `after_body` in the `_pkgdown.yml` file:
+
+```yaml
+template:
+  includes:
+    after_body: |
+      <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          document.addEventListener("click", function (e) {
+            if (typeof confetti === "function") {
+              const x = e.clientX / window.innerWidth;
+              const y = e.clientY / window.innerHeight;
+
+              confetti({
+                origin: { x: x, y: y }
+              });
+            }
+          });
+        });
+      </script>
+```
+
+# BREAK
+
+# Part 3: Mastering GitHub Pages {background-image="part3.png"}
+
+# How GitHub Actions + GitHub Pages work
+
+## How does GitHub Pages actually work*?
+
+(* = in our current, very specific scenario)
+
+* When you push to `main`, the terminal commands in the `.github/workflows/pkgdown.yaml` file are run on a virtual machine
+* This file defines the **"workflow"** (pipeline)
+
+## What happens in a "workflow"?
+
+* The commands tell GitHub to:
+  * Install stuff: R, pandoc, our R packages...
+  * Build the site (`pkgdown::build_site_github_pages()`)
+  * Place the resulting HTML files in the correct place (`/docs`) 😊
+
+## ...Why do I need to know this?
+
+* The `pkgdown` and `usethis` packages take care of the hard work for us by **writing this file for us**
+* If we want to do more complicated things, though, we need to be able to **read, understand, and modify this file.**
+
+## GitHub Actions
+
+* If you plan on re-running the same terminal commands in many different workflows/pipelines/projects, you probably don't want to retype them out all the time
+* **Example:** You'll probably always want to install R for every R project
+* You can create a **GitHub Action** and run a series of terminal commands with just 2 lines, instead of many (e.g., 50+)!
+* Other people can use your Actions, too! 🤝
+
+## Example: "Install Quarto" action
+
+[It's](https://github.com/quarto-dev/quarto-actions/blob/main/setup/action.yml) pretty complicated:
+
+![](quarto_action.jpg)
+
+## GitHub Actions in the `.github/workflows/pkgdown.yaml` file
+
+...The Quarto installation is just one small part of *this* action
+
+```yaml
+      - uses: r-lib/actions/setup-r-dependencies@v2
+```
+
+## What's my point?
+
+* **Point 1:** It's complicated, and it's great that most of the hard work is done for us.
+* **Point 2:** It's ultimately just terminal commands, though. You can probably do 99% of what you want to do with just a few commands.
+
+## What are those commands?
+
+**Remember:** GitHub Pages will host any page that ends up in our `/docs` folder.
+
+The most important commands for R users are:
+
+:::{.commands-table}
+
+| **Command**                                    	| **What it does**                                                                 	|
+|------------------------------------------------	|----------------------------------------------------------------------------------	|
+| `mkdir folder_name`                            	| Make a new folder called `folder_name`                                           	|
+| `cd folder_name`                               	| Change current directory to `folder_name` (use `cd ../` to go up a folder level) 	|
+| `cp old_folder/file_name new_folder/file_name` 	| Copy the `file_name` file from the `old_folder` to the `new_folder`              	|
+| `Rscript -e`                                   	| Execute a line of R code                                                         	|
+| `quarto render proj_name --output-dir="docs"`  	| Render your Quarto file into the `docs` folder                                   	|
+
+:::
+
+## Let's see an example!
+
+We're going to change the `link.svg` image
+
+::::{.columns}
+
+::: {.column width="50%"}
+
+
+<img src="https://pkgdown.r-lib.org/link.svg" style="width:300px; vertical-align: middle;">
+
+:::
+
+::: {.column width="50%"}
+
+<img src="link.svg" style="width:200px; vertical-align: middle;">
+
+:::
+
+::::
+
+## How do we change it?
+
+* The file being used is located at `docs/link.svg`
+* The `docs` folder is in our `.gitignore`, though, so just changing the file will only work locally
+* **If we want it to work on GitHub Pages:** In our "workflow" file, we have to make a copy of this file!
+
+## Modifying the `.github/workflows/pkgdown.yaml` file
+
+* We'll add our custom image as `pkgdown/assets/custom_link.svg` (any files in the `pkgdown/assets` folder will be automatically copied to the `docs` folder during the workflow).
+* We need to add this *after* the `pkgdown::build_site_github_pages()` function is called.
+
+```yaml
+      - name: Override link.svg image with custom_link.svg image
+        run: cp docs/custom_link.svg docs/link.svg
+```
+
+## Vote: Which topic do you want to cover?
+
+* A: Quarto vignettes
+* B: Logo image in the navbar
+* C: Adding a dynamic test coverage badge
+* D: Custom domain for your GitHub Pages
+
+# Quarto vignettes
+
+## Adding a Quarto vignette
+
+```{r}
+use_vignette(name = "tutorial.qmd", title = "Tutorial Title")
+```
+
+* `Build > Install > Clean and install`
+* Ensure Quarto is installed (including the `quarto` package in R)
+* Contents can be pasted from [here](https://github.com/melissavanbussel/rlo2025/blob/main/vignettes/my_vignette.qmd)
+
+## Troubleshooting Quarto vignettes
+
+* If you use any packages that are not in your `DESCRIPTION` file, you must add it as a dependency in `.github/workflows/pkgdown.yaml`.
+
+```{r}
+#| code-line-numbers: "3"
+     - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::pkgdown, local::., reticulate
+          needs: website
+```
+
+## Troubleshooting Quarto vignettes
+
+:::{.callout-tip}
+
+## Tip
+
+If there is an error in your Quarto file (i.e., it does not render), the error message will only say `system command 'quarto' not found`. Quarto is probably installed, and you probably have a syntax error in your Quarto vignette.
+
+:::
+
+## Changing your navbar structure
+
+You can type `Alt+0160` to add a blank character (`&nbsp;` will not work).
+
+```yaml
+navbar:
+  structure:
+    left: [vignettes, rd_files]
+    right: [search, github, my_linkedin, js_alert, lightswitch]
+  components:
+    vignettes:
+      text: " Vignettes"
+      icon: fa-book
+      menu:
+        - text: Examples
+        - text: "  Tutorial Title"
+          href: articles/my_vignette.html
+    rd_files:
+      text: " Function Documentation"
+      icon: fa-file
+      menu:
+        - text: All functions
+          href: reference/index.html
+        - text: "  Print things"
+        - text: "    Print Hello World"
+          href: reference/print_hello_world.html
+        - text: "    Print Hello R-Ladies"
+          href: reference/print_hello_rladies.html
+```
+
+# Further customization
+
+## Adding a logo in your navbar
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+In the `pkgdown/extra.js` file (replace with your package name, URL, and folder depth):
+
+```js
+document.addEventListener("DOMContentLoaded", function () {
+  const brand = document.querySelector(".navbar-brand");
+  if (!brand) return;
+
+  const isFileProtocol = window.location.protocol === "file:";
+  const imgSrc = isFileProtocol ? "../".repeat(7) + "logo.png" : "logo.png";
+
+  brand.innerHTML = `
+    <img src="${imgSrc}" height="30" style="vertical-align: middle; margin-right: 10px;">
+    <span style="vertical-align: middle;">rlo2025</span>
+  `;
+});
+```
+
+:::
+
+::: {.column width="50%"}
+
+In the `pkgdown/extra.scss` file (to add a hover effect):
+
+```css
+.navbar-brand:hover {
+  color: var(--bs-secondary-color);
+}
+```
+
+:::
+
+::::
+
+## Customizing the sidebar
+
+You can add or remove any of the [default components](https://pkgdown.r-lib.org/reference/build_home.html?q=sidebar#sidebar):
+
+```yaml
+home:
+  sidebar:
+    structure: [links, authors]
+```
+
+## Customizing author appearance
+
+You can customize the information for each author, including by adding arbitrary HTML:
+
+```yaml
+authors:
+  Melissa Van Bussel:
+    href: https://melissavanbussel.com/
+    html: "<img src='https://images.squarespace-cdn.com/content/v1/615e5d6733744f26a45a0916/0005b0b1-e327-4965-89c0-3c38a167ac35/Melissa_VanBussel_2025.jpg?format=2500w' width=100 alt=''><br><span style=''>Melissa Van Bussel</span>"
+```
+
+## Creating custom sections in your sidebar
+
+```{r}
+#| code-line-numbers: "3,4,5,6"
+home:
+  sidebar:
+    structure: [badges, links, authors]
+    components:
+      badges:
+        title: Package badges
+        text: |
+          Placeholder text
+```
+
+## "Simple" badges
+
+Examples where shields.io will do the work for you:
+
+* Package version on GitHub: [https://shields.io/badges/git-hub-r-package-version](https://shields.io/badges/git-hub-r-package-version)
+* Workflow/pipeline status: [https://shields.io/badges/git-hub-actions-workflow-status](https://shields.io/badges/git-hub-actions-workflow-status)
+
+```yaml
+        text: |
+          ![](https://img.shields.io/github/r-package/v/melissavanbussel/rlo2025?label=rlo2025)<br>
+          ![](https://img.shields.io/github/actions/workflow/status/melissavanbussel/rlo2025/pkgdown.yaml)<br>
+```
+
+## Badges that require modifying your workflow file
+
+* You can create dynamic badges that contain anything you can think of
+* If you use shields.io, you can pull any field from a `.json` or `.yaml` file
+* We can modify the workflow to run arbitrary code, then save the results into a `.json` file or `.yaml` file
+* As long as we output the file to the `docs` folder, shields.io will be able to access it!
+
+## Code coverage badge
+
+Let's add a test coverage badge: ![](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fmelissavanbussel.github.io%2Frlo2025%2Fcoverage.json&query=%24.coverage&label=test%20coverage)
+
+We need to:
+
+* Use `covr` to check our package coverage 
+* Output the results to a `.json` file in the `docs` folder
+* Create the badge using shields.io
+
+## Calculating the code coverage
+
+In the `_pkgdown.yml` file:
+
+```yaml
+      - name: Add test coverage badge
+        run: Rscript -e "jsonlite::write_json(list(coverage = sprintf('%.1f%%', covr::percent_coverage(covr::package_coverage()))), 'docs/coverage.json', auto_unbox = TRUE)"
+```
+
+We now need to add the `jsonlite`, `testthat`, and `covr` packages to our workflow's package installations.
+
+In the `.github/workflows/pkgdown.yaml` file:
+
+```{r}
+#| code-line-numbers: "3"
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::pkgdown, local::., reticulate, jsonlite, testthat, covr
+```
+
+## Creating the badge
+
+* Generate the badge here: [https://shields.io/badges/dynamic-json-badge](https://shields.io/badges/dynamic-json-badge)
+* My YouTube video has more details if you need!
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/fRILXeWTJYY?si=WoX2sl9aIvrVsJg9" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+## Adding the badge to the sidebar
+
+```{r}
+#| code-line-numbers: "10"
+home:
+  sidebar:
+    structure: [badges, links, authors]
+    components:
+      badges:
+        title: Package badges
+        text: |
+          ![](https://img.shields.io/github/r-package/v/melissavanbussel/rlo2025?label=rlo2025)<br>
+          ![](https://img.shields.io/github/actions/workflow/status/melissavanbussel/rlo2025/pkgdown.yaml)<br>
+          ![](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fmelissavanbussel.github.io%2Frlo2025%2Fcoverage.json&query=%24.coverage&label=test%20coverage)<br>
+```
+
+# BREAK
+
+# BONUS: Extra fancy stuff (if there's time)
+
+## Including Quarto files inside of your `pkgdown` site
+
+* The slides for this workshop are actually rendered as part of my package's workflow! 
+* They are included in the `slides/` folder of my package.
+* I don't necessarily *recommend* this approach, but it does demonstrate how creative you can get with GitHub workflows.
+
+## How to include a Quarto file inside of your `pkgdown` site
+
+* Create a `slides` folder, then a `slides.qmd` file in this folder
+* Add `^slides$` to your `.Rbuildignore`
+* Add a `quarto render` command to your `.github/workflows/pkgdown.yaml` file, and output the files to the `docs` folder
+
+```yaml
+      - name: Render the quarto slides
+        run: quarto render slides/slides.qmd --output-dir="../docs"
+```
+
+## Feedback form
+
+Please use [this form](https://forms.gle/zGVCKTcnponoyqDh7) to provide anonymous feedback about today's workshop. 
+
+I'll likely be teaching this again in other contexts, so any feedback you have is greatly appreciated and will be used to improve future iterations 😊.
+
+## Photos from today's event
+
+Please upload your photos here!
+
+## Thank you!
+
+Any questions?
+
+<br>
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Globo_da_Terra.svg/800px-Globo_da_Terra.svg.png" style="width:50px; vertical-align: middle;"> [melissavanbussel.com](https://www.melissavanbussel.com)
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/8/81/LinkedIn_icon.svg" style="width:50px; vertical-align: middle;">  [@melissavanbussel](https://www.linkedin.com/in/melissavanbussel/)
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/1200px-Octicons-mark-github.svg.png" style="width:50px; vertical-align: middle;"> [@melissavanbussel](https://www.github.com/melissavanbussel)
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/768px-YouTube_full-color_icon_%282017%29.svg.png?20240107144800" style="width:50px; vertical-align: middle;"> [@ggnot2](https://www.youtube.com/c/ggnot2)
+
+## Image credits
+
+* Logo created using Canva
+* <a href="https://commons.wikimedia.org/wiki/File:Globo_da_Terra.svg">File:Globe important.svg: SsolbergjDerivative work: JaviP96</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a>, via Wikimedia Commons
+* <a href="https://commons.wikimedia.org/wiki/File:LinkedIn_icon.svg">LinkedIn</a>, Public domain, via Wikimedia Commons
+* <a href="https://commons.wikimedia.org/wiki/File:Octicons-mark-github.svg">GitHub Inc.</a>, <a href="http://opensource.org/licenses/mit-license.php">MIT</a>, via Wikimedia Commons
+* <a href="https://commons.wikimedia.org/wiki/File:YouTube_full-color_icon_(2017).svg">Original: YouTube Vector:  Jarould</a>, Public domain, via Wikimedia Commons

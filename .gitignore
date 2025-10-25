@@ -1,0 +1,12 @@
+.Rproj.user
+.Rhistory
+.Rdata
+.httr-oauth
+.DS_Store
+.quarto
+docs
+inst/doc
+**/.quarto/
+rlo2025.Rcheck/
+rlo2025*.tar.gz
+rlo2025*.tgz

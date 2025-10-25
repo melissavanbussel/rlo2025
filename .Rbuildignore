@@ -1,0 +1,14 @@
+^rlo2025\.Rproj$
+^\.Rproj\.user$
+^LICENSE\.md$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.github$
+^vignettes/\.quarto$
+^vignettes/*_files$
+logo.png
+^slides$
+^rlo2025\.Rcheck$
+^rlo2025.*\.tar\.gz$
+^rlo2025.*\.tgz$
