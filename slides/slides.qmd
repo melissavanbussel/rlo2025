@@ -86,9 +86,10 @@ format:
 ## BONUS topics (if there's time)
 
 * Quarto vignettes
-* How GitHub Actions + GitHub Pages work
 * Further customization: sidebar content
+* How GitHub Actions + GitHub Pages work
 * Adding Quarto pages inside your `pkgdown` site
+* Adding package badges
 
 *the end*
 
@@ -802,6 +803,29 @@ navbar:
           href: reference/print_hello_rladies.html
 ```
 
+# Further customization: sidebar content
+
+## Customizing the sidebar
+
+You can add or remove any of the [default components](https://pkgdown.r-lib.org/reference/build_home.html?q=sidebar#sidebar):
+
+```yaml
+home:
+  sidebar:
+    structure: [links, authors]
+```
+
+## Customizing author appearance
+
+You can customize the information for each author, including by adding arbitrary HTML:
+
+```yaml
+authors:
+  Melissa Van Bussel:
+    href: https://melissavanbussel.com/
+    html: "<img src='https://images.squarespace-cdn.com/content/v1/615e5d6733744f26a45a0916/0005b0b1-e327-4965-89c0-3c38a167ac35/Melissa_VanBussel_2025.jpg?format=2500w' width=100 alt=''><br><span style=''>Melissa Van Bussel</span>"
+```
+
 # How GitHub Actions + GitHub Pages work
 
 ## How does GitHub Pages actually work*?
@@ -904,28 +928,26 @@ We're going to change the `link.svg` image
         run: cp docs/custom_link.svg docs/link.svg
 ```
 
-# Further customization
+# Including Quarto files inside of your `pkgdown` site
 
-## Customizing the sidebar
+## Example: Quarto slides inside of a package
 
-You can add or remove any of the [default components](https://pkgdown.r-lib.org/reference/build_home.html?q=sidebar#sidebar):
+* The slides for this workshop are actually rendered as part of my package's workflow! 
+* They are included in the `slides/` folder of my package.
+* I don't necessarily *recommend* this approach, but it does demonstrate how creative you can get with GitHub workflows.
 
-```yaml
-home:
-  sidebar:
-    structure: [links, authors]
-```
+## How to include a Quarto file inside of your `pkgdown` site
 
-## Customizing author appearance
-
-You can customize the information for each author, including by adding arbitrary HTML:
+* Create a `slides` folder, then a `slides.qmd` file in this folder
+* Add `^slides$` to your `.Rbuildignore`
+* Add a `quarto render` command to your `.github/workflows/pkgdown.yaml` file, and output the files to the `docs` folder
 
 ```yaml
-authors:
-  Melissa Van Bussel:
-    href: https://melissavanbussel.com/
-    html: "<img src='https://images.squarespace-cdn.com/content/v1/615e5d6733744f26a45a0916/0005b0b1-e327-4965-89c0-3c38a167ac35/Melissa_VanBussel_2025.jpg?format=2500w' width=100 alt=''><br><span style=''>Melissa Van Bussel</span>"
+      - name: Render the quarto slides
+        run: quarto render slides/slides.qmd --output-dir="../docs"
 ```
+
+# Adding package badges
 
 ## Creating custom sections in your sidebar
 
@@ -1014,22 +1036,7 @@ home:
           ![](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fmelissavanbussel.github.io%2Frlo2025%2Fcoverage.json&query=%24.coverage&label=test%20coverage)<br>
 ```
 
-## Including Quarto files inside of your `pkgdown` site
-
-* The slides for this workshop are actually rendered as part of my package's workflow! 
-* They are included in the `slides/` folder of my package.
-* I don't necessarily *recommend* this approach, but it does demonstrate how creative you can get with GitHub workflows.
-
-## How to include a Quarto file inside of your `pkgdown` site
-
-* Create a `slides` folder, then a `slides.qmd` file in this folder
-* Add `^slides$` to your `.Rbuildignore`
-* Add a `quarto render` command to your `.github/workflows/pkgdown.yaml` file, and output the files to the `docs` folder
-
-```yaml
-      - name: Render the quarto slides
-        run: quarto render slides/slides.qmd --output-dir="../docs"
-```
+# Wrap up
 
 ## Feedback form
 
@@ -1038,6 +1045,10 @@ Please use [this form](https://rladies-ottawa.github.io/feedback.html) to provid
 ## Photos from today's event
 
 Please upload your photos here!
+
+## Upcoming events
+
+Stay tuned on Meetup for our event in November!
 
 ## Thank you!
 

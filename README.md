@@ -21,6 +21,7 @@ What we'll cover in this workshop:
 BONUS topics (if there's time):
 
 * Quarto vignettes
-* How GitHub Actions + GitHub Pages work
 * Further customization: sidebar content
+* How GitHub Actions + GitHub Pages work
 * Adding Quarto pages inside your `pkgdown` site
+* Adding package badges
