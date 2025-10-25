@@ -280,9 +280,10 @@ Taught by <em><a href="https://www.melissavanbussel.com">Melissa Van Bussel</a><
 <h2>BONUS topics (if there’s time)</h2>
 <ul>
 <li>Quarto vignettes</li>
-<li>How GitHub Actions + GitHub Pages work</li>
 <li>Further customization: sidebar content</li>
+<li>How GitHub Actions + GitHub Pages work</li>
 <li>Adding Quarto pages inside your <code>pkgdown</code> site</li>
+<li>Adding package badges</li>
 </ul>
 <p><em>the end</em></p>
 </section></section>
@@ -944,6 +945,26 @@ Taught by <em><a href="https://www.melissavanbussel.com">Melissa Van Bussel</a><
 <span id="cb45-23"><a href=""></a><span class="at">          </span><span class="fu">href</span><span class="kw">:</span><span class="at"> reference/print_hello_rladies.html</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section></section>
 <section>
+<section id="further-customization-sidebar-content" class="title-slide slide level1 center">
+<h1>Further customization: sidebar content</h1>
+
+</section>
+<section id="customizing-the-sidebar" class="slide level2">
+<h2>Customizing the sidebar</h2>
+<p>You can add or remove any of the <a href="https://pkgdown.r-lib.org/reference/build_home.html?q=sidebar#sidebar">default components</a>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb46-1"><a href=""></a><span class="fu">home</span><span class="kw">:</span></span>
+<span id="cb46-2"><a href=""></a><span class="at">  </span><span class="fu">sidebar</span><span class="kw">:</span></span>
+<span id="cb46-3"><a href=""></a><span class="at">    </span><span class="fu">structure</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">links</span><span class="kw">,</span><span class="at"> authors</span><span class="kw">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="customizing-author-appearance" class="slide level2">
+<h2>Customizing author appearance</h2>
+<p>You can customize the information for each author, including by adding arbitrary HTML:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb47-1"><a href=""></a><span class="fu">authors</span><span class="kw">:</span></span>
+<span id="cb47-2"><a href=""></a><span class="at">  </span><span class="fu">Melissa Van Bussel</span><span class="kw">:</span></span>
+<span id="cb47-3"><a href=""></a><span class="at">    </span><span class="fu">href</span><span class="kw">:</span><span class="at"> https://melissavanbussel.com/</span></span>
+<span id="cb47-4"><a href=""></a><span class="at">    </span><span class="fu">html</span><span class="kw">:</span><span class="at"> </span><span class="st">"&lt;img src='https://images.squarespace-cdn.com/content/v1/615e5d6733744f26a45a0916/0005b0b1-e327-4965-89c0-3c38a167ac35/Melissa_VanBussel_2025.jpg?format=2500w' width=100 alt=''&gt;&lt;br&gt;&lt;span style=''&gt;Melissa Van Bussel&lt;/span&gt;"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section></section>
+<section>
 <section id="how-github-actions-github-pages-work" class="title-slide slide level1 center">
 <h1>How GitHub Actions + GitHub Pages work</h1>
 
@@ -991,7 +1012,7 @@ Taught by <em><a href="https://www.melissavanbussel.com">Melissa Van Bussel</a><
 <section id="github-actions-in-the-.githubworkflowspkgdown.yaml-file" class="slide level2">
 <h2>GitHub Actions in the <code>.github/workflows/pkgdown.yaml</code> file</h2>
 <p>…The Quarto installation is just one small part of <em>this</em> action</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb46-1"><a href=""></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> r-lib/actions/setup-r-dependencies@v2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb48-1"><a href=""></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> r-lib/actions/setup-r-dependencies@v2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="whats-my-point" class="slide level2">
 <h2>What’s my point?</h2>
@@ -1065,40 +1086,48 @@ Taught by <em><a href="https://www.melissavanbussel.com">Melissa Van Bussel</a><
 <li>We’ll add our custom image as <code>pkgdown/assets/custom_link.svg</code> (any files in the <code>pkgdown/assets</code> folder will be automatically copied to the <code>docs</code> folder during the workflow).</li>
 <li>We need to add this <em>after</em> the <code>pkgdown::build_site_github_pages()</code> function is called.</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb47-1"><a href=""></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Override link.svg image with custom_link.svg image</span></span>
-<span id="cb47-2"><a href=""></a><span class="at">        </span><span class="fu">run</span><span class="kw">:</span><span class="at"> cp docs/custom_link.svg docs/link.svg</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb49-1"><a href=""></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Override link.svg image with custom_link.svg image</span></span>
+<span id="cb49-2"><a href=""></a><span class="at">        </span><span class="fu">run</span><span class="kw">:</span><span class="at"> cp docs/custom_link.svg docs/link.svg</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section></section>
 <section>
-<section id="further-customization" class="title-slide slide level1 center">
-<h1>Further customization</h1>
+<section id="including-quarto-files-inside-of-your-pkgdown-site" class="title-slide slide level1 center">
+<h1>Including Quarto files inside of your <code>pkgdown</code> site</h1>
 
 </section>
-<section id="customizing-the-sidebar" class="slide level2">
-<h2>Customizing the sidebar</h2>
-<p>You can add or remove any of the <a href="https://pkgdown.r-lib.org/reference/build_home.html?q=sidebar#sidebar">default components</a>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb48-1"><a href=""></a><span class="fu">home</span><span class="kw">:</span></span>
-<span id="cb48-2"><a href=""></a><span class="at">  </span><span class="fu">sidebar</span><span class="kw">:</span></span>
-<span id="cb48-3"><a href=""></a><span class="at">    </span><span class="fu">structure</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">links</span><span class="kw">,</span><span class="at"> authors</span><span class="kw">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="example-quarto-slides-inside-of-a-package" class="slide level2">
+<h2>Example: Quarto slides inside of a package</h2>
+<ul>
+<li>The slides for this workshop are actually rendered as part of my package’s workflow!</li>
+<li>They are included in the <code>slides/</code> folder of my package.</li>
+<li>I don’t necessarily <em>recommend</em> this approach, but it does demonstrate how creative you can get with GitHub workflows.</li>
+</ul>
 </section>
-<section id="customizing-author-appearance" class="slide level2">
-<h2>Customizing author appearance</h2>
-<p>You can customize the information for each author, including by adding arbitrary HTML:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb49-1"><a href=""></a><span class="fu">authors</span><span class="kw">:</span></span>
-<span id="cb49-2"><a href=""></a><span class="at">  </span><span class="fu">Melissa Van Bussel</span><span class="kw">:</span></span>
-<span id="cb49-3"><a href=""></a><span class="at">    </span><span class="fu">href</span><span class="kw">:</span><span class="at"> https://melissavanbussel.com/</span></span>
-<span id="cb49-4"><a href=""></a><span class="at">    </span><span class="fu">html</span><span class="kw">:</span><span class="at"> </span><span class="st">"&lt;img src='https://images.squarespace-cdn.com/content/v1/615e5d6733744f26a45a0916/0005b0b1-e327-4965-89c0-3c38a167ac35/Melissa_VanBussel_2025.jpg?format=2500w' width=100 alt=''&gt;&lt;br&gt;&lt;span style=''&gt;Melissa Van Bussel&lt;/span&gt;"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="how-to-include-a-quarto-file-inside-of-your-pkgdown-site" class="slide level2">
+<h2>How to include a Quarto file inside of your <code>pkgdown</code> site</h2>
+<ul>
+<li>Create a <code>slides</code> folder, then a <code>slides.qmd</code> file in this folder</li>
+<li>Add <code>^slides$</code> to your <code>.Rbuildignore</code></li>
+<li>Add a <code>quarto render</code> command to your <code>.github/workflows/pkgdown.yaml</code> file, and output the files to the <code>docs</code> folder</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb50-1"><a href=""></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Render the quarto slides</span></span>
+<span id="cb50-2"><a href=""></a><span class="at">        </span><span class="fu">run</span><span class="kw">:</span><span class="at"> quarto render slides/slides.qmd --output-dir="../docs"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section></section>
+<section>
+<section id="adding-package-badges" class="title-slide slide level1 center">
+<h1>Adding package badges</h1>
+
 </section>
 <section id="creating-custom-sections-in-your-sidebar" class="slide level2">
 <h2>Creating custom sections in your sidebar</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50" data-code-line-numbers="3,4,5,6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href=""></a>home<span class="sc">:</span></span>
-<span id="cb50-2"><a href=""></a>  sidebar<span class="sc">:</span></span>
-<span id="cb50-3"><a href=""></a>    structure<span class="sc">:</span> [badges, links, authors]</span>
-<span id="cb50-4"><a href=""></a>    components<span class="sc">:</span></span>
-<span id="cb50-5"><a href=""></a>      badges<span class="sc">:</span></span>
-<span id="cb50-6"><a href=""></a>        title<span class="sc">:</span> Package badges</span>
-<span id="cb50-7"><a href=""></a>        text<span class="sc">:</span> <span class="er">|</span></span>
-<span id="cb50-8"><a href=""></a>          Placeholder text</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51" data-code-line-numbers="3,4,5,6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a>home<span class="sc">:</span></span>
+<span id="cb51-2"><a href=""></a>  sidebar<span class="sc">:</span></span>
+<span id="cb51-3"><a href=""></a>    structure<span class="sc">:</span> [badges, links, authors]</span>
+<span id="cb51-4"><a href=""></a>    components<span class="sc">:</span></span>
+<span id="cb51-5"><a href=""></a>      badges<span class="sc">:</span></span>
+<span id="cb51-6"><a href=""></a>        title<span class="sc">:</span> Package badges</span>
+<span id="cb51-7"><a href=""></a>        text<span class="sc">:</span> <span class="er">|</span></span>
+<span id="cb51-8"><a href=""></a>          Placeholder text</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="simple-badges" class="slide level2">
@@ -1108,9 +1137,9 @@ Taught by <em><a href="https://www.melissavanbussel.com">Melissa Van Bussel</a><
 <li>Package version on GitHub: <a href="https://shields.io/badges/git-hub-r-package-version">https://shields.io/badges/git-hub-r-package-version</a></li>
 <li>Workflow/pipeline status: <a href="https://shields.io/badges/git-hub-actions-workflow-status">https://shields.io/badges/git-hub-actions-workflow-status</a></li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb51-1"><a href=""></a><span class="fu">        text</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb51-2"><a href=""></a>          ![](https://img.shields.io/github/r-package/v/melissavanbussel/rlo2025?label=rlo2025)&lt;br&gt;</span>
-<span id="cb51-3"><a href=""></a>          ![](https://img.shields.io/github/actions/workflow/status/melissavanbussel/rlo2025/pkgdown.yaml)&lt;br&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb52-1"><a href=""></a><span class="fu">        text</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb52-2"><a href=""></a>          ![](https://img.shields.io/github/r-package/v/melissavanbussel/rlo2025?label=rlo2025)&lt;br&gt;</span>
+<span id="cb52-3"><a href=""></a>          ![](https://img.shields.io/github/actions/workflow/status/melissavanbussel/rlo2025/pkgdown.yaml)&lt;br&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="badges-that-require-modifying-your-workflow-file" class="slide level2">
 <h2>Badges that require modifying your workflow file</h2>
@@ -1134,14 +1163,14 @@ Taught by <em><a href="https://www.melissavanbussel.com">Melissa Van Bussel</a><
 <section id="calculating-the-code-coverage" class="slide level2">
 <h2>Calculating the code coverage</h2>
 <p>In the <code>_pkgdown.yml</code> file:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb52-1"><a href=""></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Add test coverage badge</span></span>
-<span id="cb52-2"><a href=""></a><span class="at">        </span><span class="fu">run</span><span class="kw">:</span><span class="at"> Rscript -e "jsonlite::write_json(list(coverage = sprintf('%.1f%%', covr::percent_coverage(covr::package_coverage()))), 'docs/coverage.json', auto_unbox = TRUE)"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb53-1"><a href=""></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Add test coverage badge</span></span>
+<span id="cb53-2"><a href=""></a><span class="at">        </span><span class="fu">run</span><span class="kw">:</span><span class="at"> Rscript -e "jsonlite::write_json(list(coverage = sprintf('%.1f%%', covr::percent_coverage(covr::package_coverage()))), 'docs/coverage.json', auto_unbox = TRUE)"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>We now need to add the <code>jsonlite</code>, <code>testthat</code>, and <code>covr</code> packages to our workflow’s package installations.</p>
 <p>In the <code>.github/workflows/pkgdown.yaml</code> file:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53" data-code-line-numbers="3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a>      <span class="sc">-</span> uses<span class="sc">:</span> r<span class="sc">-</span>lib<span class="sc">/</span>actions<span class="sc">/</span>setup<span class="sc">-</span>r<span class="sc">-</span>dependencies<span class="sc">@</span>v2</span>
-<span id="cb53-2"><a href=""></a>        with<span class="sc">:</span></span>
-<span id="cb53-3"><a href=""></a>          extra<span class="sc">-</span>packages<span class="sc">:</span> any<span class="sc">::</span>pkgdown, local<span class="sc">::</span>., reticulate, jsonlite, testthat, covr</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54" data-code-line-numbers="3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href=""></a>      <span class="sc">-</span> uses<span class="sc">:</span> r<span class="sc">-</span>lib<span class="sc">/</span>actions<span class="sc">/</span>setup<span class="sc">-</span>r<span class="sc">-</span>dependencies<span class="sc">@</span>v2</span>
+<span id="cb54-2"><a href=""></a>        with<span class="sc">:</span></span>
+<span id="cb54-3"><a href=""></a>          extra<span class="sc">-</span>packages<span class="sc">:</span> any<span class="sc">::</span>pkgdown, local<span class="sc">::</span>., reticulate, jsonlite, testthat, covr</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="creating-the-badge" class="slide level2">
@@ -1156,35 +1185,22 @@ Taught by <em><a href="https://www.melissavanbussel.com">Melissa Van Bussel</a><
 <section id="adding-the-badge-to-the-sidebar" class="slide level2">
 <h2>Adding the badge to the sidebar</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54" data-code-line-numbers="10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href=""></a>home<span class="sc">:</span></span>
-<span id="cb54-2"><a href=""></a>  sidebar<span class="sc">:</span></span>
-<span id="cb54-3"><a href=""></a>    structure<span class="sc">:</span> [badges, links, authors]</span>
-<span id="cb54-4"><a href=""></a>    components<span class="sc">:</span></span>
-<span id="cb54-5"><a href=""></a>      badges<span class="sc">:</span></span>
-<span id="cb54-6"><a href=""></a>        title<span class="sc">:</span> Package badges</span>
-<span id="cb54-7"><a href=""></a>        text<span class="sc">:</span> <span class="er">|</span></span>
-<span id="cb54-8"><a href=""></a>          <span class="sc">!</span>[](https<span class="sc">:</span><span class="er">//</span>img.shields.io<span class="sc">/</span>github<span class="sc">/</span>r<span class="sc">-</span>package<span class="sc">/</span>v<span class="sc">/</span>melissavanbussel<span class="sc">/</span>rlo2025?<span class="at">label=</span>rlo2025)<span class="sc">&lt;</span>br<span class="sc">&gt;</span></span>
-<span id="cb54-9"><a href=""></a>          <span class="sc">!</span>[](https<span class="sc">:</span><span class="er">//</span>img.shields.io<span class="sc">/</span>github<span class="sc">/</span>actions<span class="sc">/</span>workflow<span class="sc">/</span>status<span class="sc">/</span>melissavanbussel<span class="sc">/</span>rlo2025<span class="sc">/</span>pkgdown.yaml)<span class="sc">&lt;</span>br<span class="sc">&gt;</span></span>
-<span id="cb54-10"><a href=""></a>          <span class="sc">!</span>[](https<span class="sc">:</span><span class="er">//</span>img.shields.io<span class="sc">/</span>badge<span class="sc">/</span>dynamic<span class="sc">/</span>json?<span class="at">url=</span>https<span class="sc">%3A%</span><span class="dv">2</span>F<span class="sc">%2Fmelissavanbussel.github.io%</span><span class="dv">2</span>Frlo2025<span class="sc">%2Fcoverage.json&amp;query=%</span><span class="fl">24.</span>coverage<span class="sc">&amp;</span><span class="at">label=</span>test%<span class="dv">20</span>coverage)<span class="sc">&lt;</span>br<span class="sc">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55" data-code-line-numbers="10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href=""></a>home<span class="sc">:</span></span>
+<span id="cb55-2"><a href=""></a>  sidebar<span class="sc">:</span></span>
+<span id="cb55-3"><a href=""></a>    structure<span class="sc">:</span> [badges, links, authors]</span>
+<span id="cb55-4"><a href=""></a>    components<span class="sc">:</span></span>
+<span id="cb55-5"><a href=""></a>      badges<span class="sc">:</span></span>
+<span id="cb55-6"><a href=""></a>        title<span class="sc">:</span> Package badges</span>
+<span id="cb55-7"><a href=""></a>        text<span class="sc">:</span> <span class="er">|</span></span>
+<span id="cb55-8"><a href=""></a>          <span class="sc">!</span>[](https<span class="sc">:</span><span class="er">//</span>img.shields.io<span class="sc">/</span>github<span class="sc">/</span>r<span class="sc">-</span>package<span class="sc">/</span>v<span class="sc">/</span>melissavanbussel<span class="sc">/</span>rlo2025?<span class="at">label=</span>rlo2025)<span class="sc">&lt;</span>br<span class="sc">&gt;</span></span>
+<span id="cb55-9"><a href=""></a>          <span class="sc">!</span>[](https<span class="sc">:</span><span class="er">//</span>img.shields.io<span class="sc">/</span>github<span class="sc">/</span>actions<span class="sc">/</span>workflow<span class="sc">/</span>status<span class="sc">/</span>melissavanbussel<span class="sc">/</span>rlo2025<span class="sc">/</span>pkgdown.yaml)<span class="sc">&lt;</span>br<span class="sc">&gt;</span></span>
+<span id="cb55-10"><a href=""></a>          <span class="sc">!</span>[](https<span class="sc">:</span><span class="er">//</span>img.shields.io<span class="sc">/</span>badge<span class="sc">/</span>dynamic<span class="sc">/</span>json?<span class="at">url=</span>https<span class="sc">%3A%</span><span class="dv">2</span>F<span class="sc">%2Fmelissavanbussel.github.io%</span><span class="dv">2</span>Frlo2025<span class="sc">%2Fcoverage.json&amp;query=%</span><span class="fl">24.</span>coverage<span class="sc">&amp;</span><span class="at">label=</span>test%<span class="dv">20</span>coverage)<span class="sc">&lt;</span>br<span class="sc">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</section>
-<section id="including-quarto-files-inside-of-your-pkgdown-site" class="slide level2">
-<h2>Including Quarto files inside of your <code>pkgdown</code> site</h2>
-<ul>
-<li>The slides for this workshop are actually rendered as part of my package’s workflow!</li>
-<li>They are included in the <code>slides/</code> folder of my package.</li>
-<li>I don’t necessarily <em>recommend</em> this approach, but it does demonstrate how creative you can get with GitHub workflows.</li>
-</ul>
-</section>
-<section id="how-to-include-a-quarto-file-inside-of-your-pkgdown-site" class="slide level2">
-<h2>How to include a Quarto file inside of your <code>pkgdown</code> site</h2>
-<ul>
-<li>Create a <code>slides</code> folder, then a <code>slides.qmd</code> file in this folder</li>
-<li>Add <code>^slides$</code> to your <code>.Rbuildignore</code></li>
-<li>Add a <code>quarto render</code> command to your <code>.github/workflows/pkgdown.yaml</code> file, and output the files to the <code>docs</code> folder</li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb55-1"><a href=""></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Render the quarto slides</span></span>
-<span id="cb55-2"><a href=""></a><span class="at">        </span><span class="fu">run</span><span class="kw">:</span><span class="at"> quarto render slides/slides.qmd --output-dir="../docs"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section></section>
+<section>
+<section id="wrap-up" class="title-slide slide level1 center">
+<h1>Wrap up</h1>
+
 </section>
 <section id="feedback-form" class="slide level2">
 <h2>Feedback form</h2>
@@ -1193,6 +1209,10 @@ Taught by <em><a href="https://www.melissavanbussel.com">Melissa Van Bussel</a><
 <section id="photos-from-todays-event" class="slide level2">
 <h2>Photos from today’s event</h2>
 <p>Please upload your photos here!</p>
+</section>
+<section id="upcoming-events" class="slide level2">
+<h2>Upcoming events</h2>
+<p>Stay tuned on Meetup for our event in November!</p>
 </section>
 <section id="thank-you" class="slide level2">
 <h2>Thank you!</h2>
