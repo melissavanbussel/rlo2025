@@ -1,19 +1,21 @@
 /*-- scss:defaults --*/
-$primary-color: #6E6295;
-$secondary-color: #E04d39;
+$primary-color: #448787;
+$secondary-color: #6E6295;
 $tertiary-color: lighten($primary-color, 15%);
-$accent-color: #85d2d0;
-$theme-white: #fff;
-$theme-black: #000;
+$theme-black: #2B2B2B;
+$theme-light-purple: #fbfaff;
+$theme-red: #E04d39;
+$theme-pink: #ffe4e0;
+$theme-blue: #207be3;
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 $font-family-sans-serif: 'Poppins', sans-serif;
 
 
 $presentation-heading-color: $secondary-color;
 $body-color: $primary-color;
-$link-color: #3A70B0;
-// $selected-text-color: $secondary-color;
-$code-color: #245656;
+$link-color: $theme-blue;
+$selected-text-color: $secondary-color;
+$code-color: $theme-red;
 $code-block-bg: $tertiary-color;
 
 /*-- scss:rules --*/
@@ -37,15 +39,15 @@ $code-block-bg: $tertiary-color;
 }
 
 .reveal code {
-  background-color: #D9F1F0;
+  background-color: $theme-pink;
 }
 
 .reveal code.sourceCode, .reveal pre code {
-  background-color: #2B2B2B !important;
+  background-color: $theme-black !important;
 }
 
 .slide-background-content {
-  background-color: #fffcfc !important;
+  background-color: $theme-light-purple !important;
 }
 
 .reveal pre.sourceCode code {
@@ -62,14 +64,14 @@ h1.title {
 }
 
 ::-webkit-scrollbar-track {
-  background: #fffcfc; // matches your slide background
+  background: $theme-light-purple;
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
   background-color: $tertiary-color;
   border-radius: 5px;
-  border: 2px solid #fffcfc;
+  border: 2px solid $theme-light-purple;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -79,9 +81,13 @@ h1.title {
 /* Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: $tertiary-color #fffcfc;
+  scrollbar-color: $tertiary-color $theme-light-purple;
 }
 
 .commands-table table {
   font-size: 0.75em;
+}
+
+.quarto-title-author-name {
+  color: $theme-blue;
 }

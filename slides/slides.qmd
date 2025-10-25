@@ -1,5 +1,5 @@
 ---
-title: "R package development with GitHub Pages and `pkgdown`"
+title: "R package development with GitHub Pages\n and `pkgdown`"
 subtitle: "R-Ladies Ottawa, 2025"
 author: "Melissa Van Bussel"
 execute:
@@ -37,7 +37,7 @@ Thank you Bayview Yards for sponsoring today's event!
 
 ::: {.smaller}
 
-* The link in the footer ([https://melissavanbussel.github.io/rlo2025/](https://melissavanbussel.github.io/rlo2025/index.html)) contains the `pkgdown` site we will be working towards building together
+* The link in the footer contains the `pkgdown` site we will be working towards building together
 * You can access the slides at [https://melissavanbussel.github.io/rlo2025/slides.html](https://melissavanbussel.github.io/rlo2025/slides.html), which are also embedded on the `pkgdown` site
 * You can access the GitHub repo by clicking the GitHub icon in the navbar, or by going to [github.com/melissavanbussel/rlo2025](https://www.github.com/melissavanbussel/rlo2025)
 
@@ -98,10 +98,10 @@ Thank you Bayview Yards for sponsoring today's event!
 
 Please ensure you have all of the following software installed (and updated to the most recent versions):
 
-* [R v4.5.0](https://cran.rstudio.com/)
+* [R v4.5.1](https://cran.rstudio.com/)
 * [Rtools v4.5](https://cran.r-project.org/bin/windows/Rtools/)
-* [RStudio v2025.05.0+496](https://posit.co/download/rstudio-desktop/)
-* [Git v2.49.0](https://git-scm.com/downloads)
+* [RStudio v2025.09.1+401](https://posit.co/download/rstudio-desktop/)
+* [Git v2.51.1](https://git-scm.com/downloads)
 
 ## Git and GitHub setup
 
