@@ -532,9 +532,15 @@ Taught by <em><a href="https://www.melissavanbussel.com">Melissa Van Bussel</a><
 <li>Whenever we push to the <code>main</code> branch, our website will be automatically updated for us!</li>
 <li><strong>Remember:</strong> always <code>pull</code> before you <code>push</code></li>
 </ul>
-<p>To preview changes locally:</p>
+</section>
+<section id="previewing-changes-locally" class="slide level2">
+<h2>Previewing changes locally:</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">build_site</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="co"># If using RStudio on your laptop:</span></span>
+<span id="cb21-2"><a href=""></a><span class="fu">build_site</span>()</span>
+<span id="cb21-3"><a href=""></a></span>
+<span id="cb21-4"><a href=""></a><span class="co"># If using RStudio on Posit Cloud:</span></span>
+<span id="cb21-5"><a href=""></a><span class="fu">build_site</span>(<span class="at">override =</span> <span class="fu">list</span>(<span class="at">destination =</span> <span class="st">"~/docs"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section></section>
 <section id="break" class="title-slide slide level1 center">

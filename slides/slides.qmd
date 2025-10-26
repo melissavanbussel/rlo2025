@@ -376,10 +376,14 @@ use_pkgdown_github_pages()
 * Whenever we push to the `main` branch, our website will be automatically updated for us!
 * **Remember:** always `pull` before you `push`
 
-To preview changes locally:
+## Previewing changes locally:
 
 ```{r}
+# If using RStudio on your laptop:
 build_site()
+
+# If using RStudio on Posit Cloud:
+build_site(override = list(destination = "~/docs"))
 ```
 
 # BREAK
