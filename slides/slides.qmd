@@ -109,8 +109,18 @@ format:
 ## Posit Cloud
 
 * Alternatively, you can use the Posit Cloud link that was shared by email with the registration list
-* After creating an account and joining the workspace, click on `Content > New project`
-* You can either select a blank RStudio project, or `New project from template`
+* After creating an account and joining the workspace, click on `Content > New project from template`
+* Select `rlo_blank_project` if you want to **follow along live** and type everything yourself, or select `rlo2025` if you want to **just see the finished project**
+
+## Installing packages
+
+* If you used one of the project templates from Posit Cloud, the packages you need should already be installed
+* If you're not using Posit Cloud, you'll want to run the code below to install the necessary packages: 
+
+```{r}
+#| eval: false
+install.packages(c("devtools", "reticulate", "jsonlite", "testthat", "covr", "quarto"))
+```
 
 ## Git and GitHub setup
 
@@ -147,7 +157,7 @@ gitcreds::gitcreds_set()
 
 # Basic package creation
 
-## Creating a new project
+## Creating a new project (not using Posit Cloud)
 
 * Make sure the `devtools` package is installed
 * `File > New project > New Directory > R package using devtools`
@@ -157,6 +167,20 @@ gitcreds::gitcreds_set()
 library(devtools)
 library(pkgdown)
 ```
+
+## Using Posit Cloud
+
+Run
+
+```{r}
+library(devtools)
+library(pkgdown)
+create_package("/cloud/project")
+```
+
+* Say **yes** to overwriting the existing `.Rproj` file
+* Then click on **"Don't save"** when asked if you would like to save the workspace image
+* You may need to **re-load the two packages above** when RStudio restarts
 
 ## The `DESCRIPTION` file
 
@@ -347,11 +371,14 @@ test_that("print_hello_rladies prints hello rladies", {
 
 ## Always run `check()` before pushing to GitHub
 
-We should see no errors, warnings, or notes!
+We should see no errors, warnings, or notes when we run `check()`!
 
 ```{r}
 check()
 ```
+
+* [**Note #1:** If running on Posit Cloud, you will always see a NOTE which can be ignored, that says `checking for future file timestamps ... NOTE unable to verify current time`]
+* [**Note #2:** If you're running the finished version of the project on Posit Cloud, you will need to click `Build > Install` first before you run `check()`.]
 
 ## Initialize the git repository
 
@@ -376,6 +403,8 @@ Again, the `usethis` package makes this very easy to do!
 ```{r}
 use_pkgdown_github_pages()
 ```
+
+Let's **commit** all the changed files and **push** the changes to GitHub.
 
 ## Making changes from here
 
@@ -425,6 +454,8 @@ You can run the `use_logo` function, which will automatically place the file in 
 use_logo("your/path/here.png")
 ```
 
+* [**Note for Posit Cloud Users:** Use the upload button, then run `use_logo`, and then you can delete the image you uploaded.]
+
 ## Creating favicons
 
 Without loading the `pkgdown` package, run
@@ -438,7 +469,7 @@ pkgdown::build_favicons()
 In the `_pkgdown.yaml` file, add a [bootswatch theme](https://bootswatch.com/):
 
 ```{r}
-#| code-line-numbers: "5"
+#| code-line-numbers: "4,5"
 url: https://melissavanbussel.github.io/rlo2025/
 template:
   bootstrap: 5
@@ -544,6 +575,20 @@ In our `extra.scss` file:
 
 [data-bs-theme="dark"] .form-control {
   background-color: #362d53;
+}
+```
+
+## We can do this for any CSS class!
+
+Let's change the navbar colour for light and dark mode: 
+
+```css
+[data-bs-theme="light"] .navbar {
+  background-color: #D9D3ED;
+}
+
+[data-bs-theme="dark"] .navbar {
+  background-color: #6E6295;
 }
 ```
 
