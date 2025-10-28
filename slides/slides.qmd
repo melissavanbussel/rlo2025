@@ -799,7 +799,7 @@ template:
 ## Adding a Quarto vignette
 
 ```{r}
-use_vignette(name = "tutorial.qmd", title = "Tutorial Title")
+use_vignette(name = "my_vignette.qmd", title = "Tutorial Title")
 ```
 
 * `Build > Install > Clean and install`
