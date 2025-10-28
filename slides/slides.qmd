@@ -99,12 +99,18 @@ format:
 
 ## Software installations
 
-Please ensure you have all of the following software installed (and updated to the most recent versions):
+[If not using Posit Cloud] Please ensure you have all of the following software installed (and updated to the most recent versions):
 
 * [R v4.5.1](https://cran.rstudio.com/)
 * [Rtools v4.5](https://cran.r-project.org/bin/windows/Rtools/)
 * [RStudio v2025.09.1+401](https://posit.co/download/rstudio-desktop/)
 * [Git v2.51.1](https://git-scm.com/downloads)
+
+## Posit Cloud
+
+* Alternatively, you can use the Posit Cloud link that was shared by email with the registration list
+* After creating an account and joining the workspace, click on `Content > New project`
+* You can either select a blank RStudio project, or `New project from template`
 
 ## Git and GitHub setup
 
@@ -1048,7 +1054,7 @@ Please use [this form](https://rladies-ottawa.github.io/feedback.html) to provid
 
 ## Photos from today's event
 
-Please upload your photos here!
+Please upload your photos on the `#photos` channel on Slack, which you can find by using the QR code that was printed out!
 
 ## Upcoming events
 
